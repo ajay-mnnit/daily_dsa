@@ -5,7 +5,7 @@
 // Time: O(n*n)
 // Space: 26*O(n) + O(n*n)
 class Solution {
-    long long mod = 1e9 + 7;
+    const long long MOD = 1e9 + 7;
     
 public:
     int numWays(vector<string>& words, string target) {
@@ -35,9 +35,9 @@ public:
                 long long ans = 0;
 
                 ans += cnt*dp[i - 1][j - 1];
-                ans %= mod;
+                ans %= MOD;
                 ans += dp[i - 1][j];
-                ans %= mod;
+                ans %= MOD;
 
                 dp[i][j] = ans;
             }
