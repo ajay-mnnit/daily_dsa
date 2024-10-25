@@ -1,0 +1,51 @@
+// Problem: https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/description/
+
+//-------------------------------------------------------------------------------------------------------------
+//APPROACH 1: 2-D DP, Ajay Kumar
+// Time: O(n*n)
+// Space: 26*O(n) + O(n*n)
+class Solution {
+    const long long MOD = 1e9 + 7;
+    
+public:
+    int numWays(vector<string>& words, string target) {
+        vector<vector<int>> freq;
+
+        freq.resize(words.front().size(), vector<int>(26, 0)); 
+
+        for(int i = 0; i < words.front().size(); i++) 
+            for(int k = 0; k < words.size(); k++) // O(n)
+                freq[i][words[k][i] - 'a']++; 
+            
+        vector<vector<long long>> dp(words.front().size() + 1, vector<long long>(target.size() + 1, 0));
+
+        dp[0][0] = 1;
+        for(int i = 0; i <= words.front().size(); i++)
+        {
+            for(int j = 0; j <= target.size(); j++)
+            {
+                if(i == 0) continue;
+                if(j == 0) 
+                {
+                    dp[i][0] = 1;
+                    continue;
+                }
+                
+                long long cnt = freq[i-1][target[j-1] - 'a'];
+                long long ans = 0;
+
+                ans += cnt*dp[i - 1][j - 1];
+                ans %= MOD;
+                ans += dp[i - 1][j];
+                ans %= MOD;
+
+                dp[i][j] = ans;
+            }
+        }
+        return dp.back().back();
+    }
+};
+
+
+//-------------------------------------------------------------------------------------------------------
+//APPROACH 2: 1-D, Karan Kumar
