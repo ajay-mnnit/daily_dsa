@@ -1,0 +1,37 @@
+//APPROACH 2: 1-D, Karan Kumar
+//time : O(n*n)
+//space : O(n) + 26 * O(n)
+
+class Solution {
+    vector<vector<int>> freq;
+public:
+    int numWays(vector<string>& words, string target) {
+        int n = target.size();
+        int m = words.front().size();
+        long long mod = 1e9 + 7;
+
+        freq.resize(words.front().size(), vector<int>(26, 0));
+
+        for(int k = 0; k < words.size(); k++)
+            for(int i = 0; i < words.front().size(); i++)
+                freq[i][words[k][i] - 'a']++;
+        
+        vector<long long> dp(m + 1, 1);
+        int i = 1;
+        while(i <= n)
+        {
+            vector<long long> temp(m + 1, 0);
+            for(int j = 1; j <= m; j++)
+            {
+                long long curr = freq[j - 1][target[i - 1] - 'a'];
+                temp[j] += curr * dp[j - 1];
+                temp[j] %= mod;
+                temp[j] += temp[j - 1];
+                temp[j] %= mod;
+            }
+            dp = temp;
+            i++;
+        }
+        return dp[m];
+    }
+};
