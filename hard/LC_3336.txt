@@ -1,0 +1,49 @@
+//https://leetcode.com/problems/find-the-number-of-subsequences-with-equal-gcd/description/
+
+// Memoization 3D array
+//Time: O(n*n*n)
+//space: O(n*n*n)
+
+// Ajay Kumar
+
+class Solution {
+    int mem[201][201][201];
+    const int MOD = 1e9 + 7;
+
+    // calc gcd of i and j
+    int gcd(int i, int j) {
+        if (j == 0 || i == 0)
+            return i + j;
+            
+        if (i > j)
+            return gcd(j, i);
+
+        return gcd(i, j % i);
+    }
+
+
+    int find(int i, int gcd1, int gcd2, vector<int>& nums) 
+    {
+        if(i == nums.size())
+            return gcd1 == gcd2 && gcd1;
+
+        if(mem[i][gcd1][gcd2] != -1) return mem[i][gcd1][gcd2];
+
+        // skip current number 
+        int skip = find(i + 1, gcd1, gcd2, nums);
+
+        // use current number in seq1
+        int seq1 = find(i + 1, gcd(nums[i], gcd1), gcd2, nums);
+
+        // use current number in seq2
+        int seq2 = find(i + 1, gcd1, gcd(nums[i], gcd2), nums);
+
+        return mem[i][gcd1][gcd2] = (0LL + skip + seq1 + seq2)%MOD;
+    }
+
+public:
+    int subsequencePairCount(vector<int>& nums) {
+        memset(mem, -1, sizeof(mem));
+        return find(0, 0, 0, nums);
+    }
+};
