@@ -1,0 +1,48 @@
+// Problem: https://leetcode.com/problems/find-the-maximum-factor-score-of-array/description/
+
+//-------------------------------------------------------------------------------------------------------------
+//APPROACH 1: brute force, Vikram
+// Time: O(n*n)
+// Space: O(1)
+
+class Solution {
+public:
+    long long maxScore(vector<int>& nums) {
+        //long long prdt = 1;
+        long long ans=0;
+        int n = nums.size();
+        if(n == 1){
+            ans = nums[0]*nums[0];
+        }
+        else{
+            long long fc = nums[0],llcm = nums[0];
+            
+            for(int i=1; i<n; i++){
+                fc = gcd(fc, nums[i]);
+            }
+
+            for(int i=1; i<n; i++){
+                llcm = lcm(llcm, nums[i]);
+            }
+            ans = llcm*fc;
+            for(int i=0; i<n; i++){
+                if(i==0){
+                    fc = nums[1];
+                    llcm = nums[1];
+                }
+                else{
+                    fc = nums[0];
+                    llcm = nums[0];
+                }
+                for(int j=0; j<n; j++){
+                    if(j!=i){
+                        fc = gcd(fc, nums[j]);
+                        llcm = lcm(llcm, nums[j]);
+                    }
+                }
+                ans = max(ans, 1LL*fc*llcm);
+            }
+        }
+        return ans;
+    }
+};
