@@ -1,0 +1,30 @@
+// Problem: https://leetcode.com/problems/find-the-maximum-factor-score-of-array/description/
+
+//-------------------------------------------------------------------------------------------------------------
+//APPROACH 1: brute force, Vikram
+// Time: O(n*n)
+// Space: O(1)
+
+class Solution {
+public:
+    static const int MOD = 1000000007;
+     
+    int lengthAfterTransformations(string s, int t) {
+ 
+        vector<long long> freq(26, 0);
+        for(char i : s) freq[i - 'a']++;
+        long long len = s.size();
+        for(int i=0; i<t; i++){
+            len = (len + freq[25]) % MOD;
+
+            long long z_count = freq[25];
+            for(int j = 25; j>0; j--){
+                freq[j] = freq[j - 1];
+            }
+
+            freq[0] = z_count;
+            freq[1] = (freq[1] + z_count) % MOD;
+        }
+        return len;
+    }
+};
