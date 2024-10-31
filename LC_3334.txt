@@ -6,9 +6,30 @@
 // Space: O(1)
 
 class Solution {
+    //gcda is gcd
+    long long gcda(long long a, long long b){
+        if(a<=0 ) return b;
+        if(b<=0) return a;
+        return gcda(b%a, a);
+    }
+    //lcma is lcm
+    // long long lcma(int a, int b){
+    //     long long ans;
+    //     for(int i=a; i<=a*b; i++){
+    //         if(i%a == 0 && i%b == 0){
+    //             ans = i;
+    //             break;
+    //         }
+    //     }
+    //     return ans;
+    // }
+    //another method for lcm
+    long long lcma(long long a, long long  b){
+        return ((long long)(a)/gcda(a, b))*b;
+    }
+
 public:
     long long maxScore(vector<int>& nums) {
-        //long long prdt = 1;
         long long ans=0;
         int n = nums.size();
         if(n == 1){
@@ -16,13 +37,12 @@ public:
         }
         else{
             long long fc = nums[0],llcm = nums[0];
-            
             for(int i=1; i<n; i++){
-                fc = gcd(fc, nums[i]);
+                fc = gcda(fc, nums[i]);
             }
 
             for(int i=1; i<n; i++){
-                llcm = lcm(llcm, nums[i]);
+                llcm = lcma(llcm, nums[i]);
             }
             ans = llcm*fc;
             for(int i=0; i<n; i++){
@@ -36,8 +56,8 @@ public:
                 }
                 for(int j=0; j<n; j++){
                     if(j!=i){
-                        fc = gcd(fc, nums[j]);
-                        llcm = lcm(llcm, nums[j]);
+                        fc = gcda(fc, nums[j]);
+                        llcm = lcma(llcm, nums[j]);
                     }
                 }
                 ans = max(ans, 1LL*fc*llcm);
