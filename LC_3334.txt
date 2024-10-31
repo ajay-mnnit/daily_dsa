@@ -1,8 +1,8 @@
-// Problem: https://leetcode.com/problems/total-characters-in-string-after-transformations-i/description/
+// Problem: https://leetcode.com/problems/find-the-maximum-factor-score-of-array/description/
 
 //-------------------------------------------------------------------------------------------------------------
 //APPROACH 1: brute force, Vikram
-// Time: O(t)
+// Time: O(n)
 // Space: O(1)
 
 class Solution {
