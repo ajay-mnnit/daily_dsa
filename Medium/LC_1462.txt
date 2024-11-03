@@ -1,0 +1,50 @@
+//problem link : https://leetcode.com/problems/course-schedule-iv/description/
+
+//..........................................................................................................
+//By : Vikram
+//APPROACH 1 : BFS (2D-memoization)
+//Time : O(n*n*n) 
+//Space : O(n*n)
+
+class Solution {
+public:
+    void bfs(unordered_map<int, vector<int>> &adj_list, vector<vector<bool>> &vis, int v){
+            queue<int> que;
+            que.push(v);
+            while(!que.empty()){
+                int node = que.front();
+                que.pop();
+
+                for(auto it : adj_list[node]){
+                    if(!vis[v][it]){
+                        vis[v][it] = true; 
+                        que.push(it);
+                    }
+                }
+
+            }
+    }
+    
+    vector<bool> checkIfPrerequisite(int numC, vector<vector<int>>& p, vector<vector<int>>& q) {
+        int n = q.size(), m = p.size();
+
+        unordered_map<int, vector<int>> adj_list(numC);
+        vector<bool> ans(n, false);
+
+        for(int i=0; i<m; i++){
+            adj_list[p[i][0]].push_back(p[i][1]);
+        }
+
+        vector<vector<bool>> vis(numC, vector<bool> (numC, false));
+
+        for(int i=0; i<numC; i++){
+            bfs(adj_list, vis, i);
+        }
+
+        for(int i=0; i<n; i++){
+            ans[i] = vis[q[i][0]][q[i][1]];
+        }
+
+        return ans;
+    }
+};
