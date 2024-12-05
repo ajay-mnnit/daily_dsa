@@ -1,0 +1,35 @@
+//HARD PROBLEM 
+//Problem link :  https://leetcode.com/problems/number-of-flowers-in-full-bloom/
+//Solution by - Karan Kumar
+
+//Time : O(n * log(n))
+//Space : O(2 * n)
+
+class Solution {
+public:
+    vector<int> fullBloomFlowers(vector<vector<int>>& flower, vector<int>& people) {
+        int n = flower.size();
+        vector<int> start(n), end(n);
+        vector<int> ans;
+        for(int i = 0; i < n; i++)
+        {
+            start[i] = flower[i][0];
+            end[i] = flower[i][1];
+        }
+
+        sort(start.begin(), start.end());
+        sort(end.begin(), end.end());
+
+        for(int i = 0; i < people.size(); i++)
+        {
+            int day = people[i];
+            int L_ind = lower_bound(end.begin(), end.end(), day) - end.begin();
+            int U_ind = upper_bound(start.begin(), start.end(), day) - start.begin();
+
+            int No_f = U_ind - L_ind;
+
+            ans.push_back(No_f);
+        }
+        return ans;
+    }
+};
