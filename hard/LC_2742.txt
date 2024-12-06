@@ -22,3 +22,32 @@ public:
         return dp[n][n];
     }
 };
+
+//1 - D Solution by Karan Problem No. 2742
+
+//time : O(N * N)
+//space : O(2 * N)
+
+
+class Solution {
+public:
+    int paintWalls(vector<int>& cost, vector<int>& time) {
+        int n = cost.size();
+        int dp[501];
+        for(int i = 0; i <= n; i++)
+            dp[i] = 1e9;
+
+        dp[0] = 0;        
+        for(int i = 1; i <= n; i++)
+        {
+            int arr[501];
+            for(int j = 0; j <= n; j++)
+                arr[j] = min(dp[j], cost[i - 1] + dp[max(0, j - 1 - time[i - 1])]);
+            swap(arr, dp);
+        }
+        return dp[n];
+    }
+};
+
+
+
