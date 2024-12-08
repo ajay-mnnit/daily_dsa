@@ -1,0 +1,38 @@
+LC_1269. Number of Ways to Stay in the Same Place After Some Steps
+
+//1 - D Solution 
+
+//Solution by Karan
+//time : O(500 * 500)
+//space : (2 * 501)
+
+
+class Solution {
+    int MOD = 1e9 + 7;
+public:
+    int numWays(int s, int n) {
+        n = min(s, n);
+        int dp[501];
+
+        for(int i = 0; i <= n; i++)
+                dp[i] = 0;
+
+        dp[1] = 1;
+
+        for(int i = 1; i <= s; i++)
+        {
+            int temp[501];
+            for(int i = 0; i <= n; i++)
+                temp[i] = 0;
+                
+            for(int j = 1; j <= n; j++)
+            {
+                if(j < n) temp[j] = (temp[j] + dp[j + 1]) % MOD; 
+                if(j > 1) temp[j] = (temp[j] + dp[j - 1]) % MOD;
+                temp[j] = (temp[j] + dp[j]) % MOD;
+            }
+            swap(dp, temp);
+        }
+        return dp[1];
+    }
+};
